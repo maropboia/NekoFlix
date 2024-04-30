@@ -1,132 +1,96 @@
-apply plugin: "com.android.application"
-apply plugin: "org.jetbrains.kotlin.android"
-apply plugin: "com.facebook.react"
-apply from: file("../../node_modules/react-native-vector-icons/fonts.gradle")
-apply from: "../../node_modules/react-native-code-push/android/codepush.gradle"
+apply plugin: "com.android.application" // Apply the Android application plugin
+apply plugin: "org.jetbrains.kotlin.android" // Apply the Kotlin Android plugin
+apply plugin: "com.facebook.react" // Apply the React Native plugin
+apply from: file("../../node_modules/react-native-vector-icons/fonts.gradle") // Apply the React Native Vector Icons configuration
+apply from: "../../node_modules/react-native-code-push/android/codepush.gradle" // Apply the React Native Code Push configuration
 
 /**
- * This is the configuration block to customize your React Native Android app.
- * By default you don't need to apply any configuration, just uncomment the lines you need.
+ * Configuration block for customizing your React Native Android app.
+ * By default, no configuration is needed. Uncomment the lines you need.
  */
 react {
     /* Folders */
-    //   The root of your project, i.e. where "package.json" lives. Default is '..'
-    // root = file("../")
-    //   The folder where the react-native NPM package is. Default is ../node_modules/react-native
-    // reactNativeDir = file("../node_modules/react-native")
-    //   The folder where the react-native Codegen package is. Default is ../node_modules/@react-native/codegen
-    // codegenDir = file("../node_modules/@react-native/codegen")
-    //   The cli.js file which is the React Native CLI entrypoint. Default is ../node_modules/react-native/cli.js
-    // cliFile = file("../node_modules/react-native/cli.js")
+    // root = file("../") // The root of your project
+    // reactNativeDir = file("../node_modules/react-native") // The folder where the react-native NPM package is
+    // codegenDir = file("../node_modules/@react-native/codegen") // The folder where the react-native Codegen package is
+    // cliFile = file("../node_modules/react-native/cli.js") // The cli.js file which is the React Native CLI entrypoint
 
     /* Variants */
-    //   The list of variants to that are debuggable. For those we're going to
-    //   skip the bundling of the JS bundle and the assets. By default is just 'debug'.
-    //   If you add flavors like lite, prod, etc. you'll have to list your debuggableVariants.
-    // debuggableVariants = ["liteDebug", "prodDebug"]
+    // debuggableVariants = ["liteDebug", "prodDebug"] // The list of variants to that are debuggable
 
     /* Bundling */
-    //   A list containing the node command and its flags. Default is just 'node'.
-    // nodeExecutableAndArgs = ["node"]
-    //
-    //   The command to run when bundling. By default is 'bundle'
-    // bundleCommand = "ram-bundle"
-    //
-    //   The path to the CLI configuration file. Default is empty.
-    // bundleConfig = file(../rn-cli.config.js)
-    //
-    //   The name of the generated asset file containing your JS bundle
-    // bundleAssetName = "MyApplication.android.bundle"
-    //
-    //   The entry file for bundle generation. Default is 'index.android.js' or 'index.js'
-    // entryFile = file("../js/MyApplication.android.js")
-    //
-    //   A list of extra flags to pass to the 'bundle' commands.
-    //   See https://github.com/react-native-community/cli/blob/main/docs/commands.md#bundle
-    // extraPackagerArgs = []
+    // nodeExecutableAndArgs = ["node"] // The list containing the node command and its flags
+    // bundleCommand = "ram-bundle" // The command to run when bundling
+    // bundleConfig = file(../rn-cli.config.js) // The path to the CLI configuration file
+    // bundleAssetName = "MyApplication.android.bundle" // The name of the generated asset file containing your JS bundle
+    // entryFile = file("../js/MyApplication.android.js") // The entry file for bundle generation
+    // extraPackagerArgs = [] // A list of extra flags to pass to the 'bundle' commands
 
     /* Hermes Commands */
-    //   The hermes compiler command to run. By default it is 'hermesc'
-    // hermesCommand = "$rootDir/my-custom-hermesc/bin/hermesc"
-    //
-    //   The list of flags to pass to the Hermes compiler. By default is "-O", "-output-source-map"
-    // hermesFlags = ["-O", "-output-source-map"]
+    // hermesCommand = "$rootDir/my-custom-hermesc/bin/hermesc" // The hermes compiler command to run
+    // hermesFlags = ["-O", "-output-source-map"] // The list of flags to pass to the Hermes compiler
 }
 
-/**
- * Set this to true to Run Proguard on Release builds to minify the Java bytecode.
- */
-def enableProguardInReleaseBuilds = false
+def enableProguardInReleaseBuilds = false // Set this to true to Run Proguard on Release builds to minify the Java bytecode
 
-/**
- * The preferred build flavor of JavaScriptCore (JSC)
- *
- * For example, to use the international variant, you can use:
- * `def jscFlavor = 'org.webkit:android-jsc-intl:+'`
- *
- * The international variant includes ICU i18n library and necessary data
- * allowing to use e.g. `Date.toLocaleString` and `String.localeCompare` that
- * give correct results when using with locales other than en-US. Note that
- * this variant is about 6MiB larger per architecture than default.
- */
-def jscFlavor = 'org.webkit:android-jsc:+'
+def jscFlavor = 'org.webkit:android-jsc:+' // The preferred build flavor of JavaScriptCore (JSC)
 
 android {
-    ndkVersion rootProject.ext.ndkVersion
-    buildToolsVersion rootProject.ext.buildToolsVersion
-    compileSdk rootProject.ext.compileSdkVersion
+    ndkVersion rootProject.ext.ndkVersion // Set the NDK version
+    buildToolsVersion rootProject.ext.buildToolsVersion // Set the Build Tools version
+    compileSdk rootProject.ext.compileSdkVersion // Set the Compile SDK version
 
-    namespace "com.nekoflix"
+    namespace "com.nekoflix" // Set the application ID
     defaultConfig {
-        applicationId "com.nekoflix"
-        minSdkVersion rootProject.ext.minSdkVersion
-        targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
-        versionName "1.0"
+        applicationId "com.nekoflix" // Set the application ID
+        minSdkVersion rootProject.ext.minSdkVersion // Set the minimum SDK version
+        targetSdkVersion rootProject.ext.targetSdkVersion // Set the target SDK version
+        versionCode 1 // Set the version code
+        versionName "1.0" // Set the version name
     }
     signingConfigs {
-         release {
-                if (project.hasProperty('MYAPP_UPLOAD_STORE_FILE')) {
-                    storeFile file(MYAPP_UPLOAD_STORE_FILE)
-                    storePassword MYAPP_UPLOAD_STORE_PASSWORD
-                    keyAlias MYAPP_UPLOAD_KEY_ALIAS
-                    keyPassword MYAPP_UPLOAD_KEY_PASSWORD
-                }
-          }
+        release {
+            if (project.hasProperty('MYAPP_UPLOAD_STORE_FILE')) { // Check if the MYAPP_UPLOAD_STORE_FILE property exists
+                storeFile file(MYAPP_UPLOAD_STORE_FILE) // Set the store file
+                storePassword MYAPP_UPLOAD_STORE_PASSWORD // Set the store password
+                keyAlias MYAPP_UPLOAD_KEY_ALIAS // Set the key alias
+                keyPassword MYAPP_UPLOAD_KEY_PASSWORD // Set the key password
+            }
+        }
         debug {
-            storeFile file('debug.keystore')
-            storePassword 'android'
-            keyAlias 'androiddebugkey'
-            keyPassword 'android'
+            storeFile file('debug.keystore') // Set the debug keystore file
+            storePassword 'android' // Set the debug keystore password
+            keyAlias 'androiddebugkey' // Set the debug key alias
+            keyPassword 'android' // Set the debug key password
         }
     }
     buildTypes {
         debug {
-            signingConfig signingConfigs.debug
+            signingConfig signingConfigs.debug // Set the signing config for debug builds
         }
         release {
             // Caution! In production, you need to generate your own keystore file.
             // see https://reactnative.dev/docs/signed-apk-android.
-            signingConfig signingConfigs.release
-            minifyEnabled enableProguardInReleaseBuilds
-            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+            signingConfig signingConfigs.release // Set the signing config for release builds
+            minifyEnabled enableProguardInReleaseBuilds // Enable Proguard for release builds
+            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro" // Set the Proguard rules
         }
     }
 }
 
 dependencies {
     // The version of react-native is set by the React Native Gradle Plugin
-    implementation("com.facebook.react:react-android")
-    implementation("com.facebook.react:flipper-integration")
-    implementation ('com.facebook.fresco:fresco:2.0.0')
-    implementation ('com.facebook.fresco:animated-gif:2.0.0')
-    implementation ("androidx.appcompat:appcompat:1.0.0")
+    implementation("com.facebook.react:react-android") // Implement the React Android library
+    implementation("com.facebook.react:flipper-integration") // Implement the Flipper integration library
+    implementation ('com.facebook.fresco:fresco:2.0.0') // Implement the Fresco library
+    implementation ('com.facebook.fresco:animated-gif:2.0.0') // Implement the Fresco animated GIF library
+    implementation ("androidx.appcompat:appcompat:1.0.0") // Implement the AppCompat library
 
-    if (hermesEnabled.toBoolean()) {
-        implementation("com.facebook.react:hermes-android")
+    if (hermesEnabled.toBoolean()) { // If Hermes is enabled
+        implementation("com.facebook.react:hermes-android") // Implement the Hermes library for Android
     } else {
-        implementation jscFlavor
+        implementation jscFlavor // Implement the JSC library with the specified flavor
     }
 }
 
-apply from: file("../../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesAppBuildGradle(project)
+apply from: file("../../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesAppBuildGradle(project) // Apply the native modules configuration

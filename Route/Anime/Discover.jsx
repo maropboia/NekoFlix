@@ -10,13 +10,23 @@ import SimpleLoading from "../../Components/Global/Loading/SimpleLoading";
 import { PaddingConatiner } from "../../Layout/PaddingConatiner";
 import Animated, { FadeInDown } from "react-native-reanimated";
 import { Heading } from "../../Components/Global/Heading";
+
+// Discover component is responsible for displaying the anime search functionality
+// which includes the search bar, anime history, and search results.
 export const Discover = ({navigation}) => {
+  // state to control the visibility of search results
   const [showResults, setShowResults] = useState(false);
+  // state to store the user's search query
   const [query, setQuery] = useState("");
+  // state to store the API query for debouncing purposes
   const [ApiQuery, setApiQuery] = useState("");
+  // state to control the loading spinner
   const [Loading, setLoading] = useState(false);
-  // const [Loading, setLoading] = useState(false);
+  // state to store the search results
   const [Results, setResults] = useState([]);
+
+  // getSearchedResults is a callback function that fetches the search results
+  // from the API based on the given query.
   const getSearchedResults = useCallback(
     async (text) => {
       if (text){
@@ -32,6 +42,10 @@ export const Discover = ({navigation}) => {
         }
       }
     }, []);
+
+  // initialSearchCall is a callback function that is called when the component
+  // is mounted or when the API query changes. It adds the query to the history
+  // and fetches the search results.
   const initialSearchCall = useCallback(
     async (term) => {
       if (term) {
@@ -41,6 +55,8 @@ export const Discover = ({navigation}) => {
     },
     [],
   );
+
+  // useEffect hook to call initialSearchCall when ApiQuery changes
   useEffect(() => {
     if (ApiQuery){
       initialSearchCall(ApiQuery)
@@ -49,12 +65,16 @@ export const Discover = ({navigation}) => {
       setShowResults(false)
     }
   }, [ApiQuery]);
+
+  // useEffect hook to debounce the query state changes
   useEffect(() => {
     const timeoutId = setTimeout(()=>setApiQuery(query), 550)
     return () => {
       clearTimeout(timeoutId)
     }
   }, [query]);
+
+  // JSX to render the search bar, anime history, and search results
   return (
     <MainWrapper>
       <PaddingConatiner>

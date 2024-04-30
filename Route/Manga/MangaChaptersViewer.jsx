@@ -10,13 +10,26 @@ import SimpleLoading from "../../Components/Global/Loading/SimpleLoading";
 import { setMangaCurrentReadingChapter } from "../../LocalStorage/EachMangaChaptersStatus";
 import { addToContinueReading } from "../../LocalStorage/ContinueReadingManga";
 
+/**
+ * MangaChaptersViewer component displays the selected manga chapter using WebView.
+ * It fetches chapter pages, handles navigation between chapters, and updates
+ * the current reading chapter and continue reading list.
+ *
+ * @param {Object} route - Route parameters containing manga and chapter info.
+ * @returns {JSX.Element} MangaChaptersViewer component.
+ */
 export const MangaChaptersViewer = ({route}) => {
+  // Extract manga and chapter info from route parameters
   const {id, slug, MangaSlug, MangaId, name, image} = route.params;
   const [mangaAndChapterInfo, setMangaAndChapterInfo] = useState({id, slug, MangaSlug, MangaId});
-  const [Loading, setLoading] = useState(true);
-  const [Pagesdata, setPagesData] = useState({});
-  const theme = useTheme()
-  const { width, height } = Dimensions.get("window");
+  const [Loading, setLoading] = useState(true); // Loading state for chapter pages
+  const [Pagesdata, setPagesData] = useState({}); // State to store chapter pages data
+  const theme = useTheme() // Theme context for styling
+  const { width, height } = Dimensions.get("window"); // Screen dimensions
+
+  /**
+   * fetchChapterPages - Fetches chapter pages data from the API.
+   */
   const getMangaChapterPages = async () => {
     try {
       setLoading(true)
@@ -28,6 +41,14 @@ export const MangaChaptersViewer = ({route}) => {
       setLoading(false)
     }
   }
+
+  /**
+   * updateMangaAndChapterInfo - Updates the manga and chapter info state and
+   * saves the current reading chapter in local storage.
+   *
+   * @param {number} id - Chapter ID.
+   * @param {string} slug - Chapter slug.
+   */
   const updateMangaAndChapterInfo = async (id, slug) => {
     const temp = {}
     temp.MangaId = mangaAndChapterInfo.MangaId
@@ -38,24 +59,39 @@ export const MangaChaptersViewer = ({route}) => {
     setMangaAndChapterInfo(temp)
   }
 
- function finalHtml() {
-   const pages = Pagesdata?.chapter?.images.map((e)=>FormatMangaLinks.getMangaPageLink(mangaAndChapterInfo.MangaId,mangaAndChapterInfo.slug,e))
+  /**
+   * finalHtml - Generates the HTML string for displaying chapter pages in WebView.
+   *
+   * @returns {string} HTML string.
+   */
+  function finalHtml() {
+    const pages = Pagesdata?.chapter?.images.map((e)=>FormatMangaLinks.getMangaPageLink(mangaAndChapterInfo.MangaId,mangaAndChapterInfo.slug,e))
     let initialString = "<html>"
-   pages.map((e)=>{
-     initialString += `<img src=${e} style='max-width: 100%;'>`
-   })
-   initialString += "</html>"
-   return initialString
- }
- async function updateContinueReading(){
+    pages.map((e)=>{
+      initialString += `<img src=${e} style='max-width: 100%;'>`
+    })
+    initialString += "</html>"
+    return initialString
+  }
+
+  /**
+   * updateContinueReading - Adds the current manga to the continue reading list
+   * in local storage.
+   */
+  async function updateContinueReading(){
     await addToContinueReading({id:MangaId, slug:MangaSlug, name, image})
- }
+  }
+
+  // Fetch chapter pages when the component mounts
   useEffect(() => {
     getMangaChapterPages()
   }, [mangaAndChapterInfo]);
+
+  // Add the current manga to the continue reading list when the component mounts
   useEffect(() => {
     updateContinueReading()
   }, []);
+
   return (
     <MainWrapper>
       {!Loading && <WebView scrollEnabled={true} decelerationRate={1} source={{ html: finalHtml()}} style={{ flex: 1 }} />}

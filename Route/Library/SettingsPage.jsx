@@ -13,15 +13,21 @@ import {
   SetFontSizeValue, SetHomePage,
   SetLanguage,
   SetServer, SetSubDub,
-} from "../../LocalStorage/AppSettings";
+} from "../../LocalStorage/AppSettings"; // Importing functions for accessing and setting app settings
 
+/**
+ * SettingsPage component for displaying and updating app settings
+ */
 export const SettingsPage = () => {
+  // Setting up state variables for each setting
   const [fontSize, setFontSize] = useState("Medium");
   const [language, setLanguage] = useState("English");
   const [server, setServer] = useState("Server 1");
   const [home, setHome] = useState('Anime');
   const [SubOrDub, setSubOrDub] = useState('Sub');
   const [PlayQuality, setPlayQuality] = useState('Auto');
+
+  // Predefined arrays for dropdown components
   const FontSize = [
     { value: 'Small' },
     { value: 'Medium' },
@@ -51,6 +57,8 @@ export const SettingsPage = () => {
     { value: '480p' },
     { value: '360p' },
   ];
+
+  // Initial setup function to load settings from local storage
   const initialSetup = useCallback(async ()=>{
     const tempFontSize = await GetFontSizeValue()
     const tempLanguage = await GetLanguage()
@@ -65,14 +73,18 @@ export const SettingsPage = () => {
     setSubOrDub(tempSub)
     setPlayQuality(tempQuality)
   },[])
+
+  // Running initialSetup on component mount
   useEffect(()=>{
     initialSetup()
   },[])
+
   return (
     <MainWrapper>
       <PaddingConatiner>
-        <Heading text={"Settings"}/>
-        <Spacer/>
+        <Heading text={"Settings"}/> {/* Displaying the title */}
+        <Spacer/> {/* Adding spacing */}
+        {/* Rendering EachDropDownWithLabel component for each setting */}
         <EachDropDownWithLabel text={"Homepage"} placeholder={home} data={HomePage} OnChange={({ value })=>{
           SetHomePage(value)
           ToastAndroid.showWithGravity(
@@ -121,11 +133,20 @@ export const SettingsPage = () => {
             ToastAndroid.CENTER,
           );
         }}/>
-        <PlainText text={"Note: Changes require app to restart"}/>
+        <PlainText text={"Note: Changes require app to restart"}/> {/* Displaying a note */}
       </PaddingConatiner>
     </MainWrapper>
   );
 };
+
+/**
+ * EachDropDownWithLabel component for rendering a dropdown with a label
+ * @param {Object} props - Component properties
+ * @param {string} props.text - Label text
+ * @param {string} props.placeholder - Placeholder text for the dropdown
+ * @param {Array} props.data - Array of dropdown options
+ * @param {Function} props.OnChange - Function to handle dropdown value change
+ */
 function EachDropDownWithLabel({data, text, placeholder, OnChange}){
   return <View style={{
     backgroundColor:"rgb(32,32,35)",
@@ -136,19 +157,31 @@ function EachDropDownWithLabel({data, text, placeholder, OnChange}){
     alignItems:"center",
     marginBottom:10,
   }}>
-    <PlainText text={text}/>
-    <Dropdown selectedTextStyle={{
-      color:"white",
-    }}  placeholder={placeholder} placeholderStyle={{
-      color:"white",
-    }} itemTextStyle={{
-      color:"rgb(19,18,18)",
-    }} containerStyle={{
-      backgroundColor:"rgb(236,236,236)",
-      borderRadius:5,
-      borderWidth:0,
-    }} style={{
-      width:120,
-    }} data={data} labelField="value" valueField="value" onChange={OnChange}/>
+    <PlainText text={text}/> {/* Displaying the label */}
+    <Dropdown  // Rendering the dropdown
+      selectedTextStyle={{
+        color:"white",
+      }}
+      placeholder={placeholder}
+      placeholderStyle={{
+        color:"white",
+      }}
+      itemTextStyle={{
+        color:"rgb(19,18,18)",
+      }}
+      containerStyle={{
+        backgroundColor:"rgb(236,236,236)",
+        borderRadius:5,
+        borderWidth:0,
+      }}
+      style={{
+        width:120,
+      }}
+      data={data}
+      labelField="value"
+      valueField="value"
+      onChange={OnChange}
+    />
   </View>
 }
+

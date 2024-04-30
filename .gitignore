@@ -1,66 +1,62 @@
 # OSX
 #
-.DS_Store
+.DS_Store     # OSX creates these files to store custom view settings for a folder; not useful for version control
 
 # Xcode
 #
-build/
-*.pbxuser
-!default.pbxuser
-*.mode1v3
+build/        # Xcode generates build artifacts and intermediate files; not useful for version control
+*.pbxuser    # Xcode project user-specific settings; not useful for version control
+!default.pbxuser # except the default one, which is versioned
+*.mode1v3     # Xcode project user-specific settings; not useful for version control
 !default.mode1v3
-*.mode2v3
+*.mode2v3     # Xcode project user-specific settings; not useful for version control
 !default.mode2v3
-*.perspectivev3
+*.perspectivev3 # Xcode project user-specific settings; not useful for version control
 !default.perspectivev3
-xcuserdata
-*.xccheckout
-*.moved-aside
-DerivedData
-*.hmap
-*.ipa
-*.xcuserstate
-ios/.xcode.env.local
+xcuserdata   # Xcode project user-specific settings; not useful for version control
+*.xccheckout # Xcode file reference; not useful for version control
+*.moved-aside # Xcode leftover files when renaming files or directories; not useful for version control
+DerivedData   # Xcode generated build artifacts and intermediate files; not useful for version control
+*.hmap        # Xcode generated build artifacts; not useful for version control
+*.ipa        # Xcode generated build artifacts; not useful for version control
+*.xcuserstate # Xcode project user-specific settings; not useful for version control
+ios/.xcode.env.local # Xcode environment variables; not useful for version control
 
 # Android/IntelliJ
 #
-build/
-.idea
-.gradle
-local.properties
-*.iml
-*.hprof
-.cxx/
-*.keystore
-!debug.keystore
+build/        # Android Studio generates build artifacts and intermediate files; not useful for version control
+.idea         # IntelliJ IDEA project-specific settings; not useful for version control
+.gradle       # Gradle generated build files and caches; not useful for version control
+local.properties # Android Studio project-specific settings; not useful for version control
+*.iml         # IntelliJ IDEA module-specific settings; not useful for version control
+*.hprof       # Heap profiler data; not useful for version control
+.cxx/         # IntelliJ IDEA C/C++ project-specific settings; not useful for version control
+*.keystore    # Android signing configuration; should be versioned and kept secret
+!debug.keystore # except the debug.keystore, which is not versioned
 
 # node.js
 #
-node_modules/
-npm-debug.log
-yarn-error.log
+node_modules/ # npm dependencies; not useful for version control
+npm-debug.log  # npm debug log; not useful for version control
+yarn-error.log # yarn error log; not useful for version control
 
 # fastlane
 #
-# It is recommended to not store the screenshots in the git repo. Instead, use fastlane to re-generate the
-# screenshots whenever they are needed.
-# For more information about the recommended setup visit:
-# https://docs.fastlane.tools/best-practices/source-control/
-
-**/fastlane/report.xml
-**/fastlane/Preview.html
-**/fastlane/screenshots
-**/fastlane/test_output
+**/fastlane/report.xml   # fastlane build artifacts; not useful for version control
+**/fastlane/Preview.html # fastlane build artifacts; not useful for version control
+**/fastlane/screenshots  # fastlane generated screenshots; not useful for version control
+**/fastlane/test_output  # fastlane test output; not useful for version control
 
 # Bundle artifact
-*.jsbundle
+*.jsbundle      # Xcode generated bundle artifact; not useful for version control
 
 # Ruby / CocoaPods
-/ios/Pods/
-/vendor/bundle/
+/ios/Pods/      # CocoaPods dependencies; not useful for version control
+/vendor/bundle/ # Ruby gems; not useful for version control
 
 # Temporary files created by Metro to check the health of the file watcher
-.metro-health-check*
+.metro-health-check* # Metro temporary files; not useful for version control
 
 # testing
-/coverage
+/coverage       # Test coverage reports; not useful for version control
+

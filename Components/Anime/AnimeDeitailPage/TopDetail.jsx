@@ -12,9 +12,13 @@ import { memo, useCallback, useEffect, useState } from "react";
 import { ImageLoader } from "./ImageLoader";
 import { GetLanguage } from "../../../LocalStorage/AppSettings";
 
+// Memoized functional component for TopDetail
 export const TopDetail = memo(function TopDetail({cover, name, rating, genres, image}){
+  // Get window width
   const width = Dimensions.get("window").width
+  // Set up state for title
   const [title, setTitle] = useState(name?.english ?? name?.userPreferred);
+  // Callback function to get the name based on the selected language
   const getName = useCallback(async ()=>{
     const tempname = await GetLanguage()
     if (tempname === 'English') {
@@ -25,9 +29,10 @@ export const TopDetail = memo(function TopDetail({cover, name, rating, genres, i
       setTitle(name?.native ?? name?.userPreferred)
     }
   },[])
+  // Run getName on initial render and when name or language changes
   useEffect(()=>{
     getName()
-  },[])
+  },[name])
   return (
     <ImageBackground blurRadius={4}  style={{
       flex:1,
@@ -47,7 +52,9 @@ export const TopDetail = memo(function TopDetail({cover, name, rating, genres, i
                 height: (width / 1.35) - 90,
                 justifyContent:'flex-end',
               }}>
+                {/* Display the title */}
                 <Heading text={title}/>
+                {/* Display the rating */}
                 <AirbnbRating
                   count={5}
                   readonly={true}
@@ -65,19 +72,24 @@ export const TopDetail = memo(function TopDetail({cover, name, rating, genres, i
                   ratingCount={5}
                   isDisabled={true}
                 />
+                {/* Display the genres */}
                 <View style={{flexDirection:"row", flexWrap:"wrap", gap:5}}>
                   {genres?.map((e,i)=>{
                     return <EachGenres title={e} key={i}/>
                   })}
                 </View>
+                {/* Add some spacing */}
                 <Spacer/>
               </View>
-             <ImageLoader image={image}/>
+              {/* Load the image */}
+              <ImageLoader image={image}/>
             </SpaceBetween>
           </PaddingConatiner>
+          {/* Add some spacing at the bottom */}
           <View style={{height:35}}/>
         </LinearGradient>
       </View>
     </ImageBackground>
   );
-})
+});
+

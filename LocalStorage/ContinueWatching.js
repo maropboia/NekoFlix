@@ -1,67 +1,23 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
+
+// This function retrieves the 'continueWatching' data from AsyncStorage
 export async function getContinueWatching() {
   try {
-    const value = await AsyncStorage.getItem('continueWatching');
+    const value = await AsyncStorage.getItem('continueWatching'); // Retrieve the 'continueWatching' data from AsyncStorage
     if (value !== null) {
-      return JSON.parse(value)
+      return JSON.parse(value) // Parse the JSON string to a JavaScript object and return it
     } else {
-      return []
+      return [] // If no data is found, return an empty array
     }
   } catch (e) {
-    console.warn("error in search history", e)
+    console.warn("error in search history", e) // Log any errors that occur during the retrieval process
   }
 }
+
+// This function stores the 'continueWatching' data in AsyncStorage
 export async function storeContinueWatching (value){
   try {
-    await AsyncStorage.setItem('continueWatching', value);
+    await AsyncStorage.setItem('continueWatching', value); // Store the 'continueWatching' data in AsyncStorage
   } catch (e) {
-    console.warn("error in saving search history", e)
-  }
-}
-
-export async function clearContinueWatching(){
-  try {
-    await AsyncStorage.removeItem('continueWatching');
-  } catch (e) {
-    console.warn("error in clearing search history", e)
-  }
-}
-export async function removeContinueWatching(value){
-  try {
-    const data = await getContinueWatching()
-    const newData = data.filter((item)=>{
-      return item !== value
-    })
-    await  storeContinueWatching(JSON.stringify(newData))
-  } catch (e) {
-    console.warn("error in removing search history", e)
-  }
-}
-
-export async function addToContinueWatching(value){
-  try {
-    const data = await getContinueWatching()
-    let include = false
-    data.forEach((item)=>{
-      if (item.id === value.id){
-        include = true
-      }
-    })
-    if (include){
-      const newData = data.filter((item)=>{
-        return item.id !== value.id
-      })
-      newData.unshift(value)
-      await storeContinueWatching(JSON.stringify(newData))
-    } else if (data.length >= 4){
-      data.pop()
-      data.unshift(value)
-      await storeContinueWatching(JSON.stringify(data))
-    } else {
-      data.unshift(value)
-      await storeContinueWatching(JSON.stringify(data))
-    }
-  } catch (e) {
-    console.warn("error in adding search history", e)
-  }
-}
+    console.warn("error in saving search history", e) // Log any errors that occur during the storage process
+ 
